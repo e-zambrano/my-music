@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import AppBar from "@material-ui/core/AppBar";
+import { withStyles } from "@material-ui/core/styles";
+import { Component } from "react";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const styles = (theme) => ({
+  appBar: {
+    padding: theme.spacing(1),
+  },
+  appContent: {
+    marginTop: theme.spacing(10),
+  },
+});
+
+class App extends Component {
+  state = {
+    isLoggedIn: false,
+  };
+
+  setLogin = (value) => {
+    this.setState({ isLoggedIn: value });
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <AppBar className={classes.appBar}>My Music App</AppBar>
+        <div className={classes.appContent}>
+          {this.state.isLoggedIn ? (
+            <Dashboard />
+          ) : (
+            <Login onLogin={this.setLogin} />
+          )}
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withStyles(styles, { withTheme: true })(App);
